@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "995169744153",
+    "firebase_url": "https://appudghosh.firebaseio.com",
+    "project_id": "appudghosh",
+    "storage_bucket": "appudghosh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995169744153:android:9fa54f880732de99",
+        "android_client_info": {
+          "package_name": "com.huextrat.burn_off"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995169744153-3cdakr2buldnt50bht8iatlp3b3t4jfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANLtOOKe4piwIKqT6ofP8Szi67YSRI2qM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995169744153-3cdakr2buldnt50bht8iatlp3b3t4jfa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
