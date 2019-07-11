@@ -10,9 +10,9 @@ dependencies:
   cloud_firestore:
   flutter:
     sdk: flutter
-
+  flutter_advanced_networkimage:
   cupertino_icons: ^0.1.2
-
+  cached_network_image: ^0.7.0
   flutter_svg: ^0.12.0+1
 
 dev_dependencies:

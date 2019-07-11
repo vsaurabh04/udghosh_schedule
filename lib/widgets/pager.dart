@@ -2,6 +2,7 @@ import 'package:Schedule/widgets/rectangle_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MenuPager extends StatefulWidget {
   @override
@@ -12,10 +13,15 @@ const double _kViewportFraction = 0.8;
 
 class _MenuPagerState extends State<MenuPager> {
   int selectedPageIndex = 0;
+  Future _info;
   Future getSchedule() async {
     var firestore = Firestore.instance;
       QuerySnapshot qn = await firestore.collection('schedule1').getDocuments();
       return qn.documents;
+  }
+  void initState(){
+    super.initState();
+    _info = getSchedule();
   }
   List<String> days = ["Day 1", "Day 2", "Day 3"];
   @override
@@ -32,37 +38,28 @@ class _MenuPagerState extends State<MenuPager> {
      ),
      
     body: Container(
-      child: FutureBuilder(future: getSchedule(),builder: (_, snapshot)
+      child: FutureBuilder(future: _info,builder: (_, snapshot)
       {
         if(snapshot.connectionState == ConnectionState.waiting){
-              print("Check 2: Ya shayad yaha");
-
+          
           return Stack(
-            
             children: <Widget>[
-              Text("Loading"),
                _renderBackground(),
                _renderTitle(days[selectedPageIndex]),
                _renderBottomNav(),
-               
-             
-               
-               
             ],
           );
         }
         else{
-          
-            print("Check 1: Problem here");
-            return  Stack(
-              children: <Widget>[
-                _renderBackground(),
-                _renderTitle(days[selectedPageIndex]),
-                _renderBottomNav(),
-                _renderContents(snapshot, selectedPageIndex, this.handlePageChanged),
-              ], 
-            );
-          }
+          return  Stack(
+            children: <Widget>[
+               _renderBackground(),
+               _renderTitle(days[selectedPageIndex]),
+               _renderBottomNav(),
+               _renderContents(snapshot, selectedPageIndex, this.handlePageChanged),
+            ], 
+          );
+        }
       })
     )
     );
@@ -76,10 +73,8 @@ class _MenuPagerState extends State<MenuPager> {
 
   Widget _renderContents(AsyncSnapshot scheduleDay ,int selectedPageIndex, void onPageChanged(int pageIndex)) 
   {
-    print("Check 3: Entered _renderContents");
-      return PageView(
-      controller: PageController(
-        initialPage: selectedPageIndex, viewportFraction: _kViewportFraction),
+    return PageView(
+      controller: PageController(initialPage: selectedPageIndex, viewportFraction: _kViewportFraction),
       children: List<Widget>.generate(scheduleDay.data.length, (index) {
         return _renderPage(scheduleDay.data[index], index,selectedPageIndex);
       }, growable: false),
@@ -88,7 +83,7 @@ class _MenuPagerState extends State<MenuPager> {
   }
 
   Widget _renderPage(DocumentSnapshot page, int index, int selectedPageIndex) {
-    print ("Check 4: from _renderContent to _renderPage");
+    // to resize each page depending on whether they are current page
     var resizeFactor = 1 -((index-selectedPageIndex) * 0.2).abs();
     return Center(
       child: Container(
@@ -116,6 +111,13 @@ class _MenuPagerState extends State<MenuPager> {
                         width: 400.0,
                         height: 400.0,
                       ),
+                  //the below part of code to be used when we have the image in correct pixel size
+                    /*
+                    SvgPicture(
+                      AdvancedNetworkSvg(url, SvgPicture.svgByteDecoder, useDiskCache: true),
+                    )
+                    */
+                    
                     ],
                   ),
                 ),
